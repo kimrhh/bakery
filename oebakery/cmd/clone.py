@@ -71,7 +71,7 @@ def clone_checkout(options):
     oebakery.path.copy_local_conf_sample("conf")
 
     if not oebakery.call('git config push.default tracking'):
-        print 'Failed to set push.default = tracking'
+        print('Failed to set push.default = tracking')
 
     return ["update"]
 
@@ -100,7 +100,7 @@ def clone_bare_recursive(repository, directory, branch=None):
         return
     submodules = oebakery.gitmodules.parse_dot_gitmodules(buffer=gitmodules)
     failed = []
-    for submodule in submodules.values():
+    for submodule in list(submodules.values()):
         path = submodule['path']
         url = submodule['url']
         if url != './' + path: # only clone relative submodules

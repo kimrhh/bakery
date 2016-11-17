@@ -31,9 +31,9 @@ def call(cmd, dir=None, quiet=False, success_returncode=0):
 
     if not quiet:
         if dir:
-            print '%s> %s'%(dir, cmd)
+            print('%s> %s'%(dir, cmd))
         else:
-            print '> %s'%(cmd)
+            print('> %s'%(cmd))
 
     retval = None
     if quiet:

@@ -1,6 +1,4 @@
-from __future__ import with_statement # This isn't required in Python 2.6
-
-from cmds import \
+from .cmds import \
     clear, \
     add_builtin_cmds, \
     add_manifest_cmds, \

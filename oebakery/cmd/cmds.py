@@ -60,12 +60,12 @@ def add_manifest_cmds():
         module = "oelite.cmd"
         cmds = oelite.cmd.manifest_cmds
         cmd_type = "manifest"
-    except ImportError, e:
+    except ImportError as e:
         logger.debug("import oelite.cmd failed", exc_info=True)
         try:
             import oelite.baker
         except e:
-            print e
+            print(e)
             return False
         module = "oebakery.cmd"
         cmds = ("bake", "show")
@@ -81,7 +81,7 @@ def cmds_usage():
         cmd = __cmds[cmd_name]
         usage += "\n  %-21s "%(cmd_name)
         if "description" in dir(cmd) and cmd.description:
-            if isinstance(cmd.description, basestring):
+            if isinstance(cmd.description, str):
                 usage += cmd.description
             else:
                 usage += cmd.description[0]
@@ -93,12 +93,12 @@ def cmds_usage():
 def cmd_parser(cmd):
     try:
         description = cmd.description
-        if description and not isinstance(description, basestring):
+        if description and not isinstance(description, str):
             description = "\n".join(description)
             # FIXME: use something like format_textblock to format to console
             # width and handle the 2-space indentation here instead of
             # requiring command writers to bother about it.
-    except AttributeError, e:
+    except AttributeError as e:
         description = ""
     try:
         arguments = ""
@@ -114,7 +114,7 @@ def cmd_parser(cmd):
                 else:
                     arguments += " ?%s?*"%(arg_name)
                 description += "\n  %-21s %s"%(arg_name, arg_descr)
-    except AttributeError, e:
+    except AttributeError as e:
         arguments = ""
     parser = optparse.OptionParser("""
   %%prog %s [options]%s
@@ -135,7 +135,7 @@ def call(cmd, function, *args):
 
     try:
         ret = function(*args)
-    except Exception, e:
+    except Exception as e:
         if hasattr(e, "print_details"):
             e.print_details()
         logger.exception("exception in %s.%s()", cmd.name, function.__name__)

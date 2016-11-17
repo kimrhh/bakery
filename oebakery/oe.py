@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+#python2 compat
+from __future__ import print_function
+
 VERSION = "4.2.0"
 
 # New arguments strategy: oe [bakery options] <command> [command options]
@@ -45,18 +48,18 @@ try:
         raise Exception()
 except:
     if bakery_options.debug:
-        print "DEBUG: bakery: importing oebakery module from source directory:", os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+        print("DEBUG: bakery: importing oebakery module from source directory:", os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
     sys.path.insert(
         0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
     try:
         import oebakery
         version = module_version(oebakery)
         if version != VERSION:
-            print >>sys.stderr, "CRITICAL: bad oebakery module version: %s (expected: %s)"%(version, VERSION)
+            print("CRITICAL: bad oebakery module version: %s (expected: %s)"%(version, VERSION), file=sys.stderr)
             sys.exit(1)
-    except ImportError, e:
-        print >>sys.stderr, "CRITICAL: cannot import oebakery module"
-        print e
+    except ImportError as e:
+        print("CRITICAL: cannot import oebakery module", file=sys.stderr)
+        print(e)
         sys.exit(1)
 
 # Initialize logging
@@ -76,7 +79,7 @@ if not cmd_argv or (len(cmd_argv) == 1 and cmd_argv[0] == "help"):
     oebakery.cmd.add_builtin_cmds()
     oebakery.cmd.add_manifest_cmds()
     usage = parser.get_usage() + "\n" + oebakery.cmd.cmds_usage()
-    print usage
+    print(usage)
     sys.exit(1)
 
 if cmd_argv[0] == "help":

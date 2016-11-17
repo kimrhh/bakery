@@ -316,14 +316,14 @@ def git_update_remote(name, url, path=None):
 
     # get push urls
     remotes_push = {}
-    for iter_name in remotes_fetch.keys():
+    for iter_name in list(remotes_fetch.keys()):
         iter_url = oebakery.call('git config --get remote.%s.pushurl'%iter_name,
                                  dir=path, quiet=True)
         if iter_url:
             remotes_push[iter_name] = iter_url.strip()
 
     # if remote is not found, add it and return
-    if not remotes_fetch.has_key(name):
+    if name not in remotes_fetch:
         if not oebakery.call('git remote add %s %s'%(name, fetch_url),
                              dir=path):
             logger.error("Failed to add remote %s", name)
@@ -347,7 +347,7 @@ def git_update_remote(name, url, path=None):
 
     # if push url is different url, change it
     if push_url:
-        if not remotes_push.has_key(name) or remotes_push[name] != push_url:
+        if name not in remotes_push or remotes_push[name] != push_url:
             if not oebakery.call(
                 'git config remote.%s.pushurl %s'%(name, push_url),
                 dir=path):
@@ -356,7 +356,7 @@ def git_update_remote(name, url, path=None):
 
     # if push url is currently set, but shouldn't be, remove it
     else:
-        if remotes_push.has_key(name) and remotes_push[name] != fetch_url:
+        if name in remotes_push and remotes_push[name] != fetch_url:
             if not oebakery.call('git config --unset remote.%s.pushurl'%(name),
                                  dir=path):
                 logger.error("failed to unset pushurl for %s", name)

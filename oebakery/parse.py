@@ -52,7 +52,7 @@ class ParseError(Exception):
         return self.msg
 
     def print_details(self):
-        print self.msg
+        print(self.msg)
         if not self.details:
             return ""
         lines = self.parser.text.splitlines()
@@ -61,7 +61,7 @@ class ParseError(Exception):
         firstline = max(self.errlineno - 5, 0)
         lastline = min(self.errlineno + 5, len(lines))
         errlinepos = 0
-        for lineno in xrange(self.errlineno):
+        for lineno in range(self.errlineno):
             errlinepos += len(lines[lineno]) + 1
         #if isinstance(self.details, ply.lex.LexToken):
         #    print "this is a LexToken"
@@ -79,28 +79,28 @@ class ParseError(Exception):
             lexpos = None
         linenofmtlen = len(str(lastline))
         lineprintfmt = "%%s%%%dd %%s"%(linenofmtlen)
-        for lineno in xrange(firstline, lastline):
+        for lineno in range(firstline, lastline):
             if lineno == self.errlineno:
                 if lineno:
-                    print ""
+                    print("")
                 prefix = "-> "
             else:
                 prefix = "   "
-            print lineprintfmt%(prefix, lineno + 1,
-                                lines[lineno].expandtabs())
+            print(lineprintfmt%(prefix, lineno + 1,
+                                lines[lineno].expandtabs()))
             if lineno == self.errlineno:
                 if lexpos:
                     prefixlen = len(prefix) + linenofmtlen + 1
-                    print "%s%s"%(" "*(prefixlen + errlinebefore),
-                                  "^"*len(self.symbol))
+                    print("%s%s"%(" "*(prefixlen + errlinebefore),
+                                  "^"*len(self.symbol)))
                 else:
-                    print ""
+                    print("")
         if self.parser.parent:
             parent = self.parser.parent
-            print "Included from %s"%(parent.filename)
+            print("Included from %s"%(parent.filename))
             parent = parent.parent
             while parent:
-                print "              %s"%(parent.filename)
+                print("              %s"%(parent.filename))
         return
 
 
@@ -270,7 +270,7 @@ class BakeryParser(object):
 
     def p_exp_assignment(self, p):
         '''assignment : varflag EXPASSIGN STRING'''
-        print "EXPASSIGN %s"%(p[1][0])
+        print("EXPASSIGN %s"%(p[1][0]))
         self.data.set_flag(p[1][0], p[1][1], self.data.expand(p[3], 1))
         return
 
@@ -320,7 +320,7 @@ class BakeryParser(object):
         self.filename = os.path.realpath(filename)
 
         if not os.path.exists(self.filename):
-            print "No such file: %s"%(filename)
+            print("No such file: %s"%(filename))
             return None
 
         mtime = os.path.getmtime(self.filename)

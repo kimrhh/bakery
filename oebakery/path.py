@@ -49,14 +49,14 @@ def chdir(dir, quiet=False):
     logger.debug("chdir: %s", dir)
     try:
         cwd = os.getcwd()
-    except OSError, e:
+    except OSError as e:
         cwd = None
     if (cwd and
         os.path.realpath(os.path.normpath(dir)) == os.path.normpath(cwd)):
         return
 
     if not quiet:
-        print '> cd', dir
+        print('> cd', dir)
 
     os.chdir(dir)
 
@@ -67,8 +67,8 @@ def copy_local_conf_sample(confdir):
     config = os.path.join(confdir, 'local.conf')
     sample = os.path.join(confdir, 'local.conf.sample')
     if not os.path.exists(config) and os.path.exists(sample):
-        print '> cp %s %s'%(sample, config)
+        print('> cp %s %s'%(sample, config))
         try:
             shutil.copyfile(sample, config)
-        except Exception, e:
+        except Exception as e:
             logger.warning("failed to write config file: %s: %s", config, e)

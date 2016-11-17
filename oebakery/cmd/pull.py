@@ -2,7 +2,7 @@ import os
 
 import oebakery
 logger = oebakery.logger
-import update
+from . import update
 
 
 # oe pull
